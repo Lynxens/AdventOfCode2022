@@ -1,0 +1,25 @@
+#!/bin/sh
+set -e
+
+# Update the README
+TMP_FILE="/tmp/README-AdventOfCode2022.md"
+OUTPUT_FILE="README.md"
+
+cat > $TMP_FILE <<EOL
+# AdventOfCode2022
+
+Solutions for AdventOfCode 2022 (https://adventofcode.com/2022)
+
+### 1. Calendar
+Create a calendar view of the solutions using:\\
+\`python advent_of_code\`
+\`\`\`
+$(python3 advent_of_code)
+\`\`\`
+EOL
+
+mv $TMP_FILE $OUTPUT_FILE
+
+git add $OUTPUT_FILE
+
+
