@@ -17,7 +17,7 @@ def puzzle_2(data: np.ndarray) -> int:
 
 
 def run():
-    data = read(f'../data/day{DAY}/input.txt')
+    data = read(f'data/day{DAY}/input.txt')
 
     # print(f"Puzzle 1: {puzzle_1(data)}")
     # print(f"Puzzle 2: {puzzle_2(data)}")
@@ -25,8 +25,8 @@ def run():
 
 class TestPuzzles(unittest.TestCase):
     def setUp(self) -> None:
-        self.data = read(f'../data/day{DAY}/input.txt')
-        self.data_example = read(f'../data/day{DAY}/input_example.txt')
+        self.data = read(f'data/day{DAY}/input.txt')
+        self.data_example = read(f'data/day{DAY}/input_example.txt')
 
     def test_puzzle_1_example(self):
         self.assertEqual(puzzle_1(self.data_example), None)
