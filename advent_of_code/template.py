@@ -4,15 +4,16 @@ import numpy as np
 DAY = None
 
 
-def read(file_path: str) -> np.ndarray:
+def read(file_path: str):
+    with open(file_path, 'r') as f:
+        return f.read().splitlines()
+
+
+def puzzle_1(data) -> int:
     pass
 
 
-def puzzle_1(data: np.ndarray) -> int:
-    pass
-
-
-def puzzle_2(data: np.ndarray) -> int:
+def puzzle_2(data) -> int:
     pass
 
 
@@ -31,9 +32,9 @@ class TestPuzzles(unittest.TestCase):
     def test_puzzle_1_example(self):
         self.assertEqual(puzzle_1(self.data_example), None)
 
-    # def test_puzzle_1(self):
-    #     self.assertEqual(puzzle_1(self.data), None)
-    #
+    def test_puzzle_1(self):
+        self.assertEqual(puzzle_1(self.data), None)
+
     # def test_puzzle_2_example(self):
     #     self.assertEqual(puzzle_2(self.data_example), None)
     #
