@@ -124,11 +124,11 @@ def main():
 
     calendar = Calendar()
     for day in days:
-        puzzles = __import__(day)
+        module = __import__(day)
 
         with Capturing() as output:
             start = time()
-            puzzles.run()
+            module.Puzzles('solve_puzzles').run()
             end = time() - start
 
         calendar.add(day, list(output), end)

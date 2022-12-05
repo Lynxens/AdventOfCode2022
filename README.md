@@ -12,8 +12,8 @@ Create a calendar view of the solutions using:\
 | Day 1         ** | Day 2        ** | Day 3       ** | Day 4      ** | Day 5           ** |
 --------------------------------------------------------------------------------------------
 | Puzzle 1: 69501  | Puzzle 1: 12679 | Puzzle 1: 7878 | Puzzle 1: 487 | Puzzle 1: FZCMJC.. |
-| Puzzle 2: 202346 | Puzzle 2: 14470 | Puzzle 2: 2760 | Puzzle 2: 849 | Puzzle 2: JSDHQM.. |
-| Time: 1.78ms     | Time: 0.56ms    | Time: 4.16ms   | Time: 2.93ms  | Time: 1.78ms       |
+| Puzzle 2: 202346 | Puzzle 2: 14470 | Puzzle 2: 2760 | Puzzle 2: 849 | Puzzle 2: VSZWNZ.. |
+| Time: 0.46ms     | Time: 0.38ms    | Time: 1.77ms   | Time: 1.00ms  | Time: 0.53ms       |
 |                  |                 |                |               |                    |
 --------------------------------------------------------------------------------------------
 | Day 6            | Day 7           | Day 8          | Day 9         | Day 10             |

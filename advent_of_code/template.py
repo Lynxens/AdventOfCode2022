@@ -1,47 +1,26 @@
-import unittest
-import numpy as np
+from typing import Tuple
+from abstract_puzzles import AbstractPuzzles
 
-DAY = None
-
-
-def read(file_path: str):
-    with open(file_path, 'r') as f:
-        return f.read().splitlines()
+DATA_TYPE = None
 
 
-def puzzle_1(data) -> int:
-    pass
+class Puzzles(AbstractPuzzles):
+    def __init__(self, method_name):
+        super().__init__(
+            method_name,
+            day=None,
+            puzzle_1_example_answer=None,
+            puzzle_1_answer=None,
+            puzzle_2_example_answer=None,
+            puzzle_2_answer=None,
+        )
 
+    def read(self, file_path: str) -> Tuple[DATA_TYPE]:
+        with open(file_path, 'r') as f:
+            return f.read().splitlines(),
 
-def puzzle_2(data) -> int:
-    pass
+    def puzzle_1(self, data: DATA_TYPE) -> int:
+        pass
 
-
-def run():
-    data = read(f'data/day{DAY}/input.txt')
-
-    # print(f"Puzzle 1: {puzzle_1(data)}")
-    # print(f"Puzzle 2: {puzzle_2(data)}")
-
-
-class TestPuzzles(unittest.TestCase):
-    def setUp(self) -> None:
-        self.data = read(f'data/day{DAY}/input.txt')
-        self.data_example = read(f'data/day{DAY}/input_example.txt')
-
-    def test_puzzle_1_example(self):
-        self.assertEqual(puzzle_1(self.data_example), None)
-
-    def test_puzzle_1(self):
-        self.assertEqual(puzzle_1(self.data), None)
-
-    # def test_puzzle_2_example(self):
-    #     self.assertEqual(puzzle_2(self.data_example), None)
-    #
-    # def test_puzzle_2(self):
-    #     self.assertEqual(puzzle_2(self.data), None)
-
-
-if __name__ == '__main__':
-    unittest.main(exit=False)
-    run()
+    def puzzle_2(self, data: DATA_TYPE) -> int:
+        pass
