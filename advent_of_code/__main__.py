@@ -5,6 +5,8 @@ from io import StringIO
 from math import floor
 from time import time
 
+from abstract_puzzles import AbstractPuzzles
+
 
 class Capturing(list):
     """
@@ -82,7 +84,7 @@ class Calendar:
         print('-' * self.grid_width)
 
         # Title
-        calendar_title = 'AdventOfCode 2021'
+        calendar_title = 'AdventOfCode 2022'
         half = floor((self.grid_width - len(calendar_title)) / 2) - 1
         print(f'|{" " * half}{calendar_title}{" " * (self.grid_width - half - len(calendar_title) - 2)}|')
 
@@ -125,10 +127,12 @@ def main():
     calendar = Calendar()
     for day in days:
         module = __import__(day)
+        puzzles: AbstractPuzzles = module.Puzzles('solve_puzzles')
+        puzzles.setUp()
 
         with Capturing() as output:
             start = time()
-            module.Puzzles('solve_puzzles').run()
+            puzzles.solve_puzzles()
             end = time() - start
 
         calendar.add(day, list(output), end)

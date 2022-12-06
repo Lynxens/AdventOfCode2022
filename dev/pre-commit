@@ -14,7 +14,7 @@ Solutions for AdventOfCode 2022 (https://adventofcode.com/2022)
 Create a calendar view of the solutions using:\\
 \`python advent_of_code\`
 \`\`\`
-$(python3 advent_of_code)
+$(python advent_of_code)
 \`\`\`
 EOL
 

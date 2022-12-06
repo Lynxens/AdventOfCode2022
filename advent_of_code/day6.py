@@ -1,7 +1,8 @@
-from typing import Tuple
+from typing import List, Tuple
 from abstract_puzzles import AbstractPuzzles
+from functools import reduce
 
-DATA_TYPE = list
+DATA_TYPE = List[int]
 
 
 class Puzzles(AbstractPuzzles):
@@ -17,30 +18,25 @@ class Puzzles(AbstractPuzzles):
 
     def read(self, file_path: str) -> Tuple[DATA_TYPE]:
         with open(file_path, 'r') as f:
-            return list(f.readline()[:-1]),
+            return [ord(x) - 97 for x in f.readline()[:-1]],
 
     def puzzle_1(self, data: DATA_TYPE) -> int:
-        for i, window in self.window_slider(data, 4):
-            if len(set(window)) == 4:
-                return i
-
-        raise Exception('No start of packet found')
+        return self.find_unique_window(data, window_size=4)
 
     def puzzle_2(self, data: DATA_TYPE) -> int:
-        for i, window in self.window_slider(data, 14):
-            if len(set(window)) == 14:
-                return i
-
-        raise Exception('No start of message found')
+        return self.find_unique_window(data, window_size=14)
 
     @staticmethod
-    def window_slider(data: list, window_size: int) -> Tuple[int, list]:
-        window = list(data[:window_size])
+    def find_unique_window(data: list, window_size: int) -> int:
+        bit_vector = reduce(lambda vector, bit: vector ^ (1 << bit), data[:window_size], 0)
 
-        for i, element in enumerate(data[window_size:], window_size):
-            yield i, window
+        for i in range(window_size, len(data)):
+            if bit_vector.bit_count() == window_size:
+                return i
 
-            window.append(element)
-            window.pop(0)
+            bit_vector ^= 1 << data[i]
+            bit_vector ^= 1 << data[i - window_size]
+
+        raise Exception('No unique window found')
 
 
