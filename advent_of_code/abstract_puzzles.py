@@ -25,16 +25,16 @@ class AbstractPuzzles(unittest.TestCase):
         self.data_example = self.read(f'data/day{self.day}/input_example.txt')
 
     def test_puzzle_1_example(self):
-        self.assertEqual(self.puzzle_1(*self.data_example), self.puzzle_1_example_answer)
+        self.assertEqual(self.puzzle_1_example_answer, self.puzzle_1(*self.data_example))
 
     def test_puzzle_1(self):
-        self.assertEqual(self.puzzle_1(*self.data), self.puzzle_1_answer)
+        self.assertEqual(self.puzzle_1_answer, self.puzzle_1(*self.data))
 
     def test_puzzle_2_example(self):
-        self.assertEqual(self.puzzle_2(*self.data_example), self.puzzle_2_example_answer)
+        self.assertEqual(self.puzzle_2_example_answer, self.puzzle_2(*self.data_example))
 
     def test_puzzle_2(self):
-        self.assertEqual(self.puzzle_2(*self.data), self.puzzle_2_answer)
+        self.assertEqual(self.puzzle_2_answer, self.puzzle_2(*self.data))
 
     def solve_puzzles(self):
         print(f"Puzzle 1: {self.puzzle_1(*self.data)}")
