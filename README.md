@@ -13,14 +13,14 @@ Create a calendar view of the solutions using:\
 -------------------------------------------------------------------------------------------------
 | Puzzle 1: 69501  | Puzzle 1: 12679   | Puzzle 1: 7878   | Puzzle 1: 487  | Puzzle 1: FZCMJC.. |
 | Puzzle 2: 202346 | Puzzle 2: 14470   | Puzzle 2: 2760   | Puzzle 2: 849  | Puzzle 2: VSZWNZ.. |
-| Time: 0.07ms     | Time: 0.21ms      | Time: 0.75ms     | Time: 0.22ms   | Time: 0.28ms       |
+| Time: 0.07ms     | Time: 0.21ms      | Time: 0.74ms     | Time: 0.23ms   | Time: 0.29ms       |
 |                  |                   |                  |                |                    |
 -------------------------------------------------------------------------------------------------
 | Day 6         ** | Day 7          ** | Day 8         ** | Day 9       ** | Day 10             |
 -------------------------------------------------------------------------------------------------
-| Puzzle 1: 1175   | Puzzle 1: 919137  | Puzzle 1: 1538   | Puzzle 1: None |                    |
-| Puzzle 2: 3217   | Puzzle 2: 2.9e+06 | Puzzle 2: 496125 | Puzzle 2: None |                    |
-| Time: 0.49ms     | Time: 0.45ms      | Time: 136.30ms   | Time: 0.01ms   |                    |
+| Puzzle 1: 1175   | Puzzle 1: 919137  | Puzzle 1: 1538   | Puzzle 1: 6271 |                    |
+| Puzzle 2: 3217   | Puzzle 2: 2.9e+06 | Puzzle 2: 496125 | Puzzle 2: 2458 |                    |
+| Time: 0.50ms     | Time: 0.45ms      | Time: 140.33ms   | Time: 171.85ms |                    |
 |                  |                   |                  |                |                    |
 -------------------------------------------------------------------------------------------------
 | Day 11           | Day 12            | Day 13           | Day 14         | Day 15             |
