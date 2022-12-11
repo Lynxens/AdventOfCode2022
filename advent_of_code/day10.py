@@ -1,5 +1,5 @@
 from typing import Tuple
-from advent_of_code.abstract_puzzles import AbstractPuzzles
+from abstract_puzzles import AbstractPuzzles
 import numpy as np
 
 DATA_TYPE = np.ndarray
