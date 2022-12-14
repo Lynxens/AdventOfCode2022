@@ -41,55 +41,42 @@ class Puzzles(AbstractPuzzles):
 
         return cave,
 
-    def puzzle_1(self, _cave: DATA_TYPE) -> int:
-        cave = _cave.copy()
+    def puzzle_1(self, initial_cave: DATA_TYPE) -> int:
+        cave = initial_cave.copy()
 
-        sand_unit_count = 0
-        while True:
-            y = 0
-            x = 500
+        try:
+            self.simulate_sand_fall(cave, (0, 500))
+            raise Exception("Not an infinite fall")
+        except RuntimeError:
+            return cave.sum() - initial_cave.sum()
 
-            while y < cave.shape[0] - 1:
-                if not cave[y + 1, x]:
-                    y += 1
-                elif not cave[y + 1, x - 1]:
-                    y += 1
-                    x -= 1
-                elif not cave[y + 1, x + 1]:
-                    y += 1
-                    x += 1
-                else:
-                    cave[y, x] = True
-                    sand_unit_count += 1
-                    break
-
-            if y >= cave.shape[0] - 1:
-                break
-
-        return sand_unit_count
-
-    def puzzle_2(self, _cave: DATA_TYPE) -> int:
-        cave = _cave.copy()
-
+    def puzzle_2(self, initial_cave: DATA_TYPE) -> int:
+        cave = initial_cave.copy()
         cave[-1, :] = True
 
-        sand_unit_count = 0
-        while not cave[0, 500]:
-            y = 0
-            x = 500
+        self.simulate_sand_fall(cave, (0, 500))
 
-            while not cave[0, 500]:
-                if not cave[y + 1, x]:
-                    y += 1
-                elif not cave[y + 1, x - 1]:
-                    y += 1
-                    x -= 1
-                elif not cave[y + 1, x + 1]:
-                    y += 1
-                    x += 1
-                else:
-                    cave[y, x] = True
-                    sand_unit_count += 1
-                    break
+        return cave[:-1, :].sum() - initial_cave.sum()
 
-        return sand_unit_count
+    def simulate_sand_fall(self, cave: np.ndarray, start_of_fall: Tuple[int, int]):
+        while not cave[start_of_fall]:
+            self.simulate_sand_unit_drop(cave, start_of_fall)
+
+    @staticmethod
+    def simulate_sand_unit_drop(cave: DATA_TYPE, start: Tuple[int, int]) -> Tuple[int, int]:
+        y, x = start
+
+        while y < cave.shape[0] - 1:
+            if not cave[y + 1, x]:
+                y += 1
+            elif not cave[y + 1, x - 1]:
+                y += 1
+                x -= 1
+            elif not cave[y + 1, x + 1]:
+                y += 1
+                x += 1
+            else:
+                cave[y, x] = True
+                return y, x
+
+        raise RuntimeError("Infinite drop")
