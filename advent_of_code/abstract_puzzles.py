@@ -21,8 +21,8 @@ class AbstractPuzzles(unittest.TestCase):
         self.puzzle_2_answer = puzzle_2_answer
 
     def setUp(self) -> None:
-        self.data = self.read(f'data/day{self.day}/input.txt')
         self.data_example = self.read(f'data/day{self.day}/input_example.txt')
+        self.data = self.read(f'data/day{self.day}/input.txt')
 
     def test_puzzle_1_example(self):
         self.assertEqual(self.puzzle_1_example_answer, self.puzzle_1(*self.data_example))
