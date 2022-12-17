@@ -118,7 +118,7 @@ def check_path_with_elephant(valves: DATA_TYPE, your_valve: str, elephant_valve:
     else:
         return total_pressure
 
-    return max(paths)
+    return max(paths) if len(paths) > 0 else total_pressure
 
 
 def calculate_costs(valves: Dict[str, Tuple[int, List[str]]], start: str, ends: List[str]) -> Dict[str, int]:
