@@ -1,5 +1,5 @@
 import unittest
-from typing import Tuple
+from typing import Tuple, Union
 
 
 class AbstractPuzzles(unittest.TestCase):
@@ -7,10 +7,10 @@ class AbstractPuzzles(unittest.TestCase):
             self,
             method_name: str,
             day: int,
-            puzzle_1_example_answer: int | str | None,
-            puzzle_1_answer: int | str | None,
-            puzzle_2_example_answer: int | str | None,
-            puzzle_2_answer: int | str | None,
+            puzzle_1_example_answer: Union[int, str, None],
+            puzzle_1_answer: Union[int, str, None],
+            puzzle_2_example_answer: Union[int, str, None],
+            puzzle_2_answer: Union[int, str, None],
     ):
         super().__init__(method_name)
 
