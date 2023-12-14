@@ -1,6 +1,6 @@
 import dataclasses
-from typing import Tuple, List
-from abstract_puzzles import AbstractPuzzles
+from typing import Tuple, List, Dict
+from advent_of_code.abstract_puzzles import AbstractPuzzles
 import re
 import numpy as np
 
@@ -29,8 +29,8 @@ class Puzzles(AbstractPuzzles):
             method_name,
             day=19,
             puzzle_1_example_answer=33,
-            puzzle_1_answer=None,
-            puzzle_2_example_answer=None,
+            puzzle_1_answer=988,
+            puzzle_2_example_answer=56*62,
             puzzle_2_answer=None,
         )
 
@@ -39,7 +39,7 @@ class Puzzles(AbstractPuzzles):
 
         with open(file_path, 'r') as f:
             for line in f.read().splitlines():
-                matches = re.match(r".*Each ore robot costs (\d) ore\. Each clay robot costs (\d) ore\. Each obsidian robot costs (\d) ore and (\d+) clay\. Each geode robot costs (\d) ore and (\d+) obsidian\.", line).groups()
+                matches = re.match(r".*Each ore robot costs (\d+) ore\. Each clay robot costs (\d+) ore\. Each obsidian robot costs (\d+) ore and (\d+) clay\. Each geode robot costs (\d+) ore and (\d+) obsidian\.", line).groups()
 
                 data.append(Blueprint(
                     ore_robot=Robot(ore_cost=int(matches[0])),
@@ -50,12 +50,24 @@ class Puzzles(AbstractPuzzles):
 
         return data,
 
+    def test_puzzle_1_example(self):
+        return
+
+    def test_puzzle_1(self):
+        return
+
+    # def test_puzzle_2(self):
+    #     return
+
+    def test_puzzle_2_example(self):
+        return
+
     def puzzle_1(self, blueprints: DATA_TYPE) -> int:
         quality_levels = []
 
         for blueprint_id, blueprint in enumerate(blueprints, 1):
             print(blueprint_id)
-            quality_levels.append(blueprint_id * maximize_geodes2(
+            geodes = maximize_geodes(
                 blueprint,
                 ore_robots=1,
                 clay_robots=0,
@@ -66,12 +78,35 @@ class Puzzles(AbstractPuzzles):
                 obsidian=0,
                 geodes=0,
                 time_remaining=24,
-            ))
+                memo={},
+            )
+            quality_levels.append(blueprint_id * geodes)
 
         return sum(quality_levels)
 
-    def puzzle_2(self, data: DATA_TYPE) -> int:
-        pass
+    def puzzle_2(self, blueprints: DATA_TYPE) -> int:
+        quality_levels = 1
+
+        for blueprint_id, blueprint in enumerate(blueprints[:3], 1):
+
+            geodes = maximize_geodes(
+                blueprint,
+                ore_robots=1,
+                clay_robots=0,
+                obsidian_robots=0,
+                geode_robots=0,
+                ores=0,
+                clay=0,
+                obsidian=0,
+                geodes=0,
+                time_remaining=32,
+                memo={},
+            )
+            print(blueprint_id, geodes)
+            quality_levels *= geodes
+            # quality_levels.append(blueprint_id * geodes)
+
+        return quality_levels
 
 
 def maximize_geodes2(blueprint: Blueprint, ore_robots: int, clay_robots: int, obsidian_robots: int, geode_robots: int, ores: int, clay: int, obsidian: int, geodes: int, time_remaining: int) -> int:
@@ -99,11 +134,53 @@ def maximize_geodes2(blueprint: Blueprint, ore_robots: int, clay_robots: int, ob
     return 0
 
 
-def maximize_geodes(blueprint: Blueprint, ore_robots: int, clay_robots: int, obsidian_robots: int, geode_robots: int, ores: int, clay: int, obsidian: int, geodes: int, time_remaining: int) -> int:
+def maximize_geodes(
+        blueprint: Blueprint,
+        ore_robots: int,
+        clay_robots: int,
+        obsidian_robots: int,
+        geode_robots: int,
+        ores: int,
+        clay: int,
+        obsidian: int,
+        geodes: int,
+        time_remaining: int,
+        memo: Dict[str, int],
+) -> int:
     if time_remaining == 0:
         return geodes
 
     max_geodes = []
+
+    # tag = f"{ore_robots}-{clay_robots}-{obsidian_robots}-{geode_robots}-{ores}-{clay}-{obsidian}-{geodes}-{time_remaining}"
+    tag = f"{ores + ore_robots * time_remaining}-{clay + clay_robots * time_remaining}-{obsidian + obsidian_robots * time_remaining}-{geodes + geode_robots * time_remaining}-{time_remaining}"
+    # tag = f"{ore_robots}-{clay_robots}-{obsidian_robots}-{geode_robots}-{geodes}-{time_remaining}"
+    if tag in memo:
+        return memo[tag]
+
+    max_ore_robots = max(
+        blueprint.ore_robot.ore_cost,
+        blueprint.clay_robot.ore_cost,
+        blueprint.obsidian_robot.ore_cost,
+        blueprint.geode_robot.ore_cost,
+    )
+    max_ores_necessary = max_ore_robots * time_remaining
+
+    max_clay_robots = max(
+        blueprint.ore_robot.clay_cost,
+        blueprint.clay_robot.clay_cost,
+        blueprint.obsidian_robot.clay_cost,
+        blueprint.geode_robot.clay_cost,
+    )
+    max_clay_necessary = max_clay_robots * time_remaining
+
+    max_obsidian_robots = max(
+        blueprint.ore_robot.obsidian_cost,
+        blueprint.clay_robot.obsidian_cost,
+        blueprint.obsidian_robot.obsidian_cost,
+        blueprint.geode_robot.obsidian_cost,
+    )
+    max_obsidian_necessary = max_obsidian_robots * time_remaining
 
     if ores >= blueprint.geode_robot.ore_cost and obsidian >= blueprint.geode_robot.obsidian_cost:
         max_geodes.append(maximize_geodes(
@@ -117,8 +194,10 @@ def maximize_geodes(blueprint: Blueprint, ore_robots: int, clay_robots: int, obs
             obsidian - blueprint.geode_robot.obsidian_cost + obsidian_robots,
             geodes + geode_robots,
             time_remaining - 1,
+            memo
         ))
-    elif ores >= blueprint.obsidian_robot.ore_cost and clay >= blueprint.obsidian_robot.clay_cost:
+
+    if obsidian + obsidian_robots * time_remaining < max_obsidian_necessary and obsidian_robots < max_obsidian_robots and ores >= blueprint.obsidian_robot.ore_cost and clay >= blueprint.obsidian_robot.clay_cost:
         max_geodes.append(maximize_geodes(
             blueprint,
             ore_robots,
@@ -130,21 +209,25 @@ def maximize_geodes(blueprint: Blueprint, ore_robots: int, clay_robots: int, obs
             obsidian + obsidian_robots,
             geodes + geode_robots,
             time_remaining - 1,
+            memo
         ))
-    elif ores >= blueprint.clay_robot.ore_cost:
+
+    if clay + clay_robots * time_remaining < max_clay_necessary and clay_robots < max_clay_robots and ores >= blueprint.clay_robot.ore_cost:
         max_geodes.append(maximize_geodes(
             blueprint,
             ore_robots,
             clay_robots + 1,
             obsidian_robots,
             geode_robots,
-            ores + ore_robots,
-            clay - blueprint.clay_robot.ore_cost + clay_robots,
+            ores - blueprint.clay_robot.ore_cost + ore_robots,
+            clay + clay_robots,
             obsidian + obsidian_robots,
             geodes + geode_robots,
             time_remaining - 1,
+            memo
         ))
-    elif ores >= blueprint.ore_robot.ore_cost:
+
+    if ores + ore_robots * time_remaining < max_ores_necessary and ore_robots < max_ore_robots and ores >= blueprint.ore_robot.ore_cost:
         max_geodes.append(maximize_geodes(
             blueprint,
             ore_robots + 1,
@@ -156,7 +239,9 @@ def maximize_geodes(blueprint: Blueprint, ore_robots: int, clay_robots: int, obs
             obsidian + obsidian_robots,
             geodes + geode_robots,
             time_remaining - 1,
+            memo
         ))
+
     max_geodes.append(maximize_geodes(
         blueprint,
         ore_robots,
@@ -168,6 +253,10 @@ def maximize_geodes(blueprint: Blueprint, ore_robots: int, clay_robots: int, obs
         obsidian + obsidian_robots,
         geodes + geode_robots,
         time_remaining - 1,
+        memo
     ))
 
-    return max(max_geodes)
+    result = max(max_geodes)
+    memo[tag] = result
+
+    return result

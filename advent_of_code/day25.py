@@ -1,5 +1,5 @@
 from typing import Tuple, List
-from abstract_puzzles import AbstractPuzzles
+from advent_of_code.abstract_puzzles import AbstractPuzzles
 
 DATA_TYPE = List[str]
 
